@@ -3,7 +3,6 @@ import blogService from './services/blogs'
 import loginService from './services/login'
 import Notification from './components/Notification'
 import BlogForm from './components/BlogForm'
-import Togglable from './components/Togglable'
 import LoginForm from './components/LoginForm'
 import { makeStyles, Tab, Tabs, Paper } from '@material-ui/core'
 import { Switch, Route, Link, useHistory } from "react-router-dom"
@@ -56,7 +55,7 @@ const App = () => {
       )
       blogService.setToken(user.token)
       setUser(user)
-      history.push('/list')
+      history.push('/blogs')
     } catch (error) {
       setNotificationMessage('wrong credentials')
       setIsSuccess(false)
@@ -74,8 +73,7 @@ const App = () => {
     setTabValue(0)
   }
 
-  const createBlog = (newBlog) => {
-    blogFormRef.current.toggleVisibility()
+  const pinBlog = (newBlog) => {
     blogService
       .create(newBlog)
       .then(returnedBlog => {
@@ -92,14 +90,6 @@ const App = () => {
         console.log(error)
       })
   }
-
-  const blogFormRef = React.createRef()
-  
-  const blogForm = () => (
-    <Togglable buttonLabel='create new blog' ref={blogFormRef}>
-      <BlogForm createBlog={createBlog} />
-    </Togglable>
-  )
 
   const updateBlog = (id, updatedBlog) => {
     blogService.update(id, updatedBlog)
@@ -144,7 +134,7 @@ const App = () => {
       </Paper>
       <Switch>
         <Route path="/blogs" render={() => <BlogCards blogs={blogs} user={user} updateBlog={updateBlog} deleteBlog={deleteBlog} />} />
-        <Route path="/new" render={() => <BlogForm />} />
+        <Route path="/new" render={() => <BlogForm  pinBlog={pinBlog}/>} />
         <Route path="/login" render={() => <LoginForm />} />
       </Switch>
       <Notification
