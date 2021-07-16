@@ -1,13 +1,27 @@
 import React, { useState, useEffect } from 'react'
-import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import Notification from './components/Notification'
 import BlogForm from './components/BlogForm'
 import Togglable from './components/Togglable'
 import LoginForm from './components/LoginForm'
+import { makeStyles, Tab, Tabs, Paper } from '@material-ui/core'
+import { Switch, Route, Link, useHistory } from "react-router-dom"
+import BlogCards from './components/BlogCards'
+
+const useStyles = makeStyles({
+  root: {
+    flexGrow: 1,
+  },
+  gridStyle: {
+    paddingTop: 8
+  }
+});
 
 const App = () => {
+  const classes = useStyles();
+  const history = useHistory();
+  const [tabValue, setTabValue] = React.useState(0);
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
   const [notificationMessage, setNotificationMessage] = useState(null)
@@ -28,6 +42,10 @@ const App = () => {
     }
   }, [])
 
+  const handleChange = (event, newValue) => {
+    setTabValue(newValue);
+  };
+
   const handleLogin = async (username, password) => {
     try {
       const user = await loginService.login({
@@ -38,6 +56,7 @@ const App = () => {
       )
       blogService.setToken(user.token)
       setUser(user)
+      history.push('/list')
     } catch (error) {
       setNotificationMessage('wrong credentials')
       setIsSuccess(false)
@@ -52,6 +71,7 @@ const App = () => {
   const handleLogout = () => {
     window.localStorage.removeItem('loggedBloglistAppUser')
     setUser(null)
+    setTabValue(0)
   }
 
   const createBlog = (newBlog) => {
@@ -74,6 +94,7 @@ const App = () => {
   }
 
   const blogFormRef = React.createRef()
+  
   const blogForm = () => (
     <Togglable buttonLabel='create new blog' ref={blogFormRef}>
       <BlogForm createBlog={createBlog} />
@@ -94,11 +115,6 @@ const App = () => {
       .catch(error => { console.log(error) })
   }
 
-  const sortBlogs = blogs => (
-    blogs.sort((first, second) => (first.likes > second.likes) ? -1 : 1)
-  )
-
-
   if (user === null) {
     return (
       <div>
@@ -111,26 +127,29 @@ const App = () => {
   }
 
   return (
+
     <div>
-      <h2>blogs</h2>
+      <Paper className={classes.root}>
+        <Tabs
+          value={tabValue}
+          onChange={handleChange}
+          indicatorColor="primary"
+          textColor="primary"
+          centered
+        >
+          <Tab label="pined" component={Link} to={"/blogs"} />
+          <Tab label="pin new" component={Link} to={"/new"} />
+          <Tab label="logout" component={Link} onClick={handleLogout} to={"/login"} />
+        </Tabs>
+      </Paper>
+      <Switch>
+        <Route path="/blogs" render={() => <BlogCards blogs={blogs} user={user} updateBlog={updateBlog} deleteBlog={deleteBlog} />} />
+        <Route path="/new" render={() => <BlogForm />} />
+        <Route path="/login" render={() => <LoginForm />} />
+      </Switch>
       <Notification
         message={notificationMessage}
         success={isSuccess} />
-      <div>{user.name} is logged in
-        <button id="logout-button" onClick={handleLogout}>logout</button>
-      </div>
-      <br />
-      {blogForm()}
-      <div id="blogs-div">
-        {sortBlogs(blogs).map(blog =>
-          <Blog
-            key={blog.id}
-            blog={blog}
-            user={user}
-            updateBlog={updateBlog}
-            deleteBlog={deleteBlog} />
-        )}
-      </div>
     </div>
   )
 }
