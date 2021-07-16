@@ -5,12 +5,11 @@ import loginService from './services/login'
 import Notification from './components/Notification'
 import BlogForm from './components/BlogForm'
 import Togglable from './components/Togglable'
+import LoginForm from './components/LoginForm'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
   const [notificationMessage, setNotificationMessage] = useState(null)
   const [isSuccess, setIsSuccess] = useState(null)
 
@@ -29,8 +28,7 @@ const App = () => {
     }
   }, [])
 
-  const handleLogin = async (event) => {
-    event.preventDefault()
+  const handleLogin = async (username, password) => {
     try {
       const user = await loginService.login({
         username, password,
@@ -40,8 +38,6 @@ const App = () => {
       )
       blogService.setToken(user.token)
       setUser(user)
-      setUsername('')
-      setPassword('')
     } catch (error) {
       setNotificationMessage('wrong credentials')
       setIsSuccess(false)
@@ -105,7 +101,12 @@ const App = () => {
 
   if (user === null) {
     return (
-      <LoginForm />
+      <div>
+        <LoginForm login={handleLogin} />
+        <Notification
+          message={notificationMessage}
+          success={isSuccess} />
+      </div>
     )
   }
 
