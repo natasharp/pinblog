@@ -55,7 +55,7 @@ const App = () => {
       )
       blogService.setToken(user.token)
       setUser(user)
-      history.push('/blogs')
+      history.push('/')
     } catch (error) {
       setNotificationMessage('wrong credentials')
       setIsSuccess(false)
@@ -127,15 +127,15 @@ const App = () => {
           textColor="primary"
           centered
         >
-          <Tab label="pined" component={Link} to={"/blogs"} />
+          <Tab label="pined" component={Link} to={"/"} />
           <Tab label="pin new" component={Link} to={"/new"} />
           <Tab label="logout" component={Link} onClick={handleLogout} to={"/login"} />
         </Tabs>
       </Paper>
       <Switch>
-        <Route path="/blogs" render={() => <BlogCards blogs={blogs} user={user} updateBlog={updateBlog} deleteBlog={deleteBlog} />} />
-        <Route path="/new" render={() => <BlogForm  pinBlog={pinBlog}/>} />
+        <Route path="/new" render={() => <BlogForm pinBlog={pinBlog} />} />
         <Route path="/login" render={() => <LoginForm />} />
+        <Route path="/" render={() => <BlogCards blogs={blogs} user={user} updateBlog={updateBlog} deleteBlog={deleteBlog} />} />
       </Switch>
       <Notification
         message={notificationMessage}
