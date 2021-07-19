@@ -27,7 +27,7 @@ const BlogCards = ({blogs, user, updateBlog, deleteBlog}) => {
             justifyContent="flex-start"
             alignItems="flex-start">
             {sortBlogs(blogs).map(blog =>
-                <Grid item xs={12} sm={6} md={4} lg={4} key={blogs.indexOf(blog)}>
+                <Grid item xs={12} sm={6} md={4} lg={3} key={blogs.indexOf(blog)}>
                     <Blog
                         key={blog.id}
                         blog={blog}
