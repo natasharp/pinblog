@@ -1,44 +1,17 @@
 import React from 'react'
+import Alert from '@material-ui/lab/Alert';
 
-const Notification = ({ message, success }) => {
-
-  const notificationStyle = {
-    color: 'green',
-    background: 'lightgrey',
-    fontSize: 20,
-    borderStyle: 'solid',
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 10,
-  }
-
-  const errorStyle = {
-    color: 'red',
-    background: 'lightgrey',
-    fontSize: 20,
-    borderStyle: 'solid',
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 10,
-  }
+const Notification = ({ message, isError }) => {
 
   if (message === null) {
     return null
   }
 
-  if (success === true) {
-    return (
-      <div className="notification" style={notificationStyle}>
-        {message}
-      </div>
-    )
+  if (isError) {
+    return <Alert severity="error"> {message}</Alert>
   }
 
-  return (
-    <div className="error" style={errorStyle}>
-      {message}
-    </div>
-  )
+  return <Alert severity="success">{message}</Alert>
 }
 
 export default Notification

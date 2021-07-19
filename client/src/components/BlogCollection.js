@@ -1,6 +1,6 @@
 import React from 'react'
 import { Grid, makeStyles } from '@material-ui/core'
-import Blog from './Blog';
+import BlogCard from './BlogCard';
 
 const useStyles = makeStyles({
     root: {
@@ -11,7 +11,7 @@ const useStyles = makeStyles({
     }
 });
 
-const BlogCards = ({blogs, user, updateBlog, deleteBlog}) => {
+const BlogCollection = ({ blogs, user }) => {
     const classes = useStyles()
 
     const sortBlogs = blogs => (
@@ -28,18 +28,13 @@ const BlogCards = ({blogs, user, updateBlog, deleteBlog}) => {
             alignItems="flex-start">
             {sortBlogs(blogs).map(blog =>
                 <Grid item xs={12} sm={6} md={4} lg={3} key={blogs.indexOf(blog)}>
-                    <Blog
+                    <BlogCard
                         key={blog.id}
                         blog={blog}
-                        user={user}
-                        updateBlog={updateBlog}
-                        deleteBlog={deleteBlog} /></Grid>
+                        user={user}/></Grid>
             )}
         </Grid>
     )
 }
 
-export default BlogCards
-
-
-
+export default BlogCollection

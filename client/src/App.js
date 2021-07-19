@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import blogService from './services/blogs'
-import loginService from './services/login'
-import Notification from './components/Notification'
 import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
-import { makeStyles, Tab, Tabs, Paper } from '@material-ui/core'
-import { Switch, Route, Link, useHistory } from "react-router-dom"
-import BlogCards from './components/BlogCards'
+import { makeStyles, Tab, Tabs, Paper, Card } from '@material-ui/core'
+import { Switch, Route, Link, useRouteMatch } from "react-router-dom"
+import BlogCollection from './components/BlogCollection'
+import { initializeBlogs } from './reducers/blogReducer'
+import { useDispatch, useSelector } from 'react-redux'
+import BlogDetails from './components/BlogDetails'
+import { setLoggedInUser } from './reducers/userReducer'
+import Notification from './components/Notification'
 
 const useStyles = makeStyles({
   root: {
@@ -14,110 +17,57 @@ const useStyles = makeStyles({
   },
   gridStyle: {
     paddingTop: 8
+  },
+  cardStyle: {
+    marginTop: 8,
+    marginBottom: 8
+  },
+  cardContentStyle: {
+    paddingBottom: 4,
   }
 });
 
 const App = () => {
   const classes = useStyles();
-  const history = useHistory();
+  const dispatch = useDispatch()
+  const blogs = useSelector((state) => state.blogs)
+  const user = useSelector((state) => state.user)
+  const notification = useSelector((state) => state.notification)
   const [tabValue, setTabValue] = React.useState(0);
-  const [blogs, setBlogs] = useState([])
-  const [user, setUser] = useState(null)
-  const [notificationMessage, setNotificationMessage] = useState(null)
-  const [isSuccess, setIsSuccess] = useState(null)
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs(blogs)
-    )
-  }, [])
+    blogService.getAll().then((blogs) => dispatch(initializeBlogs(blogs)))
+  }, [dispatch])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBloglistAppUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
-      setUser(user)
+      dispatch(setLoggedInUser(user))
       blogService.setToken(user.token)
     }
-  }, [])
+  }, [dispatch])
 
   const handleChange = (event, newValue) => {
     setTabValue(newValue);
   };
 
-  const handleLogin = async (username, password) => {
-    try {
-      const user = await loginService.login({
-        username, password,
-      })
-      window.localStorage.setItem(
-        'loggedBloglistAppUser', JSON.stringify(user)
-      )
-      blogService.setToken(user.token)
-      setUser(user)
-      history.push('/')
-    } catch (error) {
-      setNotificationMessage('wrong credentials')
-      setIsSuccess(false)
-      setTimeout(() => {
-        setNotificationMessage(null)
-        setIsSuccess(null)
-      }, 5000)
-
-    }
-  }
-
   const handleLogout = () => {
     window.localStorage.removeItem('loggedBloglistAppUser')
-    setUser(null)
+    dispatch(setLoggedInUser(null))
     setTabValue(0)
   }
-
-  const pinBlog = (newBlog) => {
-    blogService
-      .create(newBlog)
-      .then(returnedBlog => {
-        setBlogs(blogs.concat(returnedBlog),
-          setNotificationMessage(
-            `a new blog ${returnedBlog.title} by ${returnedBlog.author} added`
-          ),
-          setIsSuccess(true),
-          setTimeout(() => {
-            setNotificationMessage(null)
-          }, 5000)
-        )
-      }).catch(error => {
-        console.log(error)
-      })
-  }
-
-  const updateBlog = (id, updatedBlog) => {
-    blogService.update(id, updatedBlog)
-      .then(returnedBlog => {
-        setBlogs(blogs.map(blog => blog.id !== id ? blog : returnedBlog))
-      })
-      .catch(error => { console.log(error) })
-  }
-
-  const deleteBlog = (id) => {
-    blogService.remove(id)
-      .then(setBlogs(blogs.filter(blog => blog.id !== id)))
-      .catch(error => { console.log(error) })
-  }
-
-  if (user === null) {
+  const match = useRouteMatch('/blogs/:id')
+  const blog = match ? blogs.find((b) => b.id === match.params.id) : null
+  if (!user) {
     return (
       <div>
-        <LoginForm login={handleLogin} />
-        <Notification
-          message={notificationMessage}
-          success={isSuccess} />
+        <LoginForm notification={notification} />
       </div>
     )
   }
 
   return (
-
     <div>
       <Paper className={classes.root}>
         <Tabs
@@ -125,21 +75,23 @@ const App = () => {
           onChange={handleChange}
           indicatorColor="primary"
           textColor="primary"
-          centered
-        >
+          centered>
           <Tab label="pined" component={Link} to={"/"} />
           <Tab label="pin new" component={Link} to={"/new"} />
           <Tab label="logout" component={Link} onClick={handleLogout} to={"/login"} />
         </Tabs>
       </Paper>
+      <Card className={classes.cardStyle}>
+        {notification ? <Notification
+          message={notification.message}
+          success={notification.isSuccess} /> : null}
+      </Card>
       <Switch>
-        <Route path="/new" render={() => <BlogForm pinBlog={pinBlog} />} />
+        <Route path='/blogs/:id'><BlogDetails user={user} blog={blog} /></Route>
         <Route path="/login" render={() => <LoginForm />} />
-        <Route path="/" render={() => <BlogCards blogs={blogs} user={user} updateBlog={updateBlog} deleteBlog={deleteBlog} />} />
+        <Route path="/new" render={() => <BlogForm notification={notification} setTabValue={setTabValue}/>} />
+        <Route path="/" render={() => <BlogCollection blogs={blogs} user={user} />} />
       </Switch>
-      <Notification
-        message={notificationMessage}
-        success={isSuccess} />
     </div>
   )
 }

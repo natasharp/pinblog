@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
 import { Button, Card, CardContent, Grid, makeStyles, TextField, Typography } from '@material-ui/core'
 import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { addNewBlog } from '../reducers/blogReducer';
+import blogService from '../services/blogs'
+import { setNotification } from '../reducers/notificationReducer';
 
 const useStyle = makeStyles({
   cardStyle: {
@@ -12,25 +15,37 @@ const useStyle = makeStyles({
   }
 });
 
-const BlogForm = ({ pinBlog }) => {
+const BlogForm = ({ notification, setTabValue }) => {
   const classes = useStyle()
   const history = useHistory();
+  const dispatch = useDispatch()
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
-  
-  const addBlog = (event) => {
+
+  const pinBlog = async (event) => {
     event.preventDefault()
-    const blogEntry = {
-      title: title,
-      url: url,
-      author: author
+    try {
+      const blogEntry = {
+        title: title,
+        url: url,
+        author: author
+      }
+      const newBlog = await blogService.create(blogEntry)
+      dispatch(addNewBlog(newBlog))
+      dispatch(setNotification(`New blog ${newBlog.title} by ${newBlog.author} pinned`, false))
+      setTimeout(() => {
+        dispatch(setNotification(null, false))
+      }, 5000)
+      setTitle('')
+      setAuthor('')
+      setUrl('')
+      setTabValue(0)
+      history.push('/')
+    } catch (error) {
+      console.log(error.message)
     }
-    pinBlog(blogEntry)
-    setTitle('')
-    setAuthor('')
-    setUrl('')
-    history.push('/blogs')
+
   }
 
   return (
@@ -45,7 +60,7 @@ const BlogForm = ({ pinBlog }) => {
           pin new blog
         </Typography>
         <Card className={classes.cardStyle} variant='outlined'>
-          <form onSubmit={addBlog}>
+          <form onSubmit={pinBlog}>
             <CardContent className={classes.cardContentStyle}>
               <TextField
                 fullWidth
@@ -93,10 +108,6 @@ const BlogForm = ({ pinBlog }) => {
       </Grid >
     </div>
   )
-}
-
-BlogForm.propTypes = {
-  pinBlog: PropTypes.func.isRequired
 }
 
 export default BlogForm
