@@ -31,7 +31,7 @@ const BlogCollection = ({ blogs, user }) => {
                     <BlogCard
                         key={blog.id}
                         blog={blog}
-                        user={user}/></Grid>
+                        user={user} /></Grid>
             )}
         </Grid>
     )

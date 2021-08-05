@@ -89,7 +89,7 @@ const App = () => {
       <Switch>
         <Route path='/blogs/:id'><BlogDetails user={user} blog={blog} /></Route>
         <Route path="/login" render={() => <LoginForm />} />
-        <Route path="/new" render={() => <BlogForm notification={notification} setTabValue={setTabValue}/>} />
+        <Route path="/new" render={() => <BlogForm notification={notification} setTabValue={setTabValue} />} />
         <Route path="/" render={() => <BlogCollection blogs={blogs} user={user} />} />
       </Switch>
     </div>
