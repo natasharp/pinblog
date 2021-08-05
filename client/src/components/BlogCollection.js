@@ -1,6 +1,7 @@
 import React from 'react'
-import { Grid, makeStyles } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core'
 import BlogCard from './BlogCard';
+import Masonry from 'react-masonry-css'
 
 const useStyles = makeStyles({
     root: {
@@ -8,6 +9,18 @@ const useStyles = makeStyles({
     },
     gridStyle: {
         paddingTop: 8
+    },
+    masonryGridStyle: {
+        display: "flex",
+        marginLeft: -30,
+        width: "auto",
+    },
+    masonryGridColumnStyle: {
+        paddingLeft: 10,
+        backgroundClip: "padding-box"
+    },
+    masonryGridRowStyle: {
+        marginBottom: 10
     }
 });
 
@@ -15,25 +28,29 @@ const BlogCollection = ({ blogs, user }) => {
     const classes = useStyles()
 
     const sortBlogs = blogs => (
-        blogs.sort((first, second) => (first.likes > second.likes) ? -1 : 1)
+        blogs.sort((first, second) => (first.likes >= second.likes) ? -1 : 1)
     )
 
+    const breakpoint = {
+        default: 4,
+        1100: 3,
+        700: 2,
+        500: 1
+    };
+
     return (
-        <Grid
-            className={classes.gridStyle}
-            container
-            spacing={1}
-            direction="row"
-            justifyContent="flex-start"
-            alignItems="flex-start">
+        <Masonry
+            breakpointCols={breakpoint}
+            className={classes.masonryGridStyle}
+            columnClassName={classes.masonryGridColumnStyle}>
             {sortBlogs(blogs).map(blog =>
-                <Grid item xs={12} sm={6} md={4} lg={3} key={blogs.indexOf(blog)}>
+                <div className={classes.masonryGridRowStyle} key={blogs.indexOf(blog)}>
                     <BlogCard
                         key={blog.id}
                         blog={blog}
-                        user={user} /></Grid>
+                        user={user} /></div>
             )}
-        </Grid>
+        </Masonry>
     )
 }
 
