@@ -76,7 +76,7 @@ const App = () => {
           indicatorColor="primary"
           textColor="primary"
           centered>
-          <Tab label="pined" component={Link} to={"/"} />
+          <Tab label="pined" component={Link} to={"/collection"} />
           <Tab label="pin new" component={Link} to={"/new"} />
           <Tab label="logout" component={Link} onClick={handleLogout} to={"/login"} />
         </Tabs>
@@ -90,7 +90,7 @@ const App = () => {
         <Route path='/blogs/:id'><BlogDetails user={user} blog={blog} /></Route>
         <Route path="/login" render={() => <LoginForm />} />
         <Route path="/new" render={() => <BlogForm notification={notification} setTabValue={setTabValue} />} />
-        <Route path="/" render={() => <BlogCollection blogs={blogs} user={user} />} />
+        <Route path="/collection" render={() => <BlogCollection blogs={blogs} user={user} />} />
       </Switch>
     </div>
   )

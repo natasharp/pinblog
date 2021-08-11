@@ -35,7 +35,7 @@ const LoginForm = ({ notification }) => {
             window.localStorage.setItem('loggedBloglistAppUser', JSON.stringify(user))
             blogService.setToken(user.token)
             dispatch(setLoggedInUser(user))
-            history.push('/')
+            history.push('/collection')
         } catch (error) {
             dispatch(setNotification('wrong credentials', true))
             setTimeout(() => {

@@ -41,7 +41,7 @@ const BlogForm = ({ notification, setTabValue }) => {
       setAuthor('')
       setUrl('')
       setTabValue(0)
-      history.push('/')
+      history.push('/collection')
     } catch (error) {
       console.log(error.message)
     }
