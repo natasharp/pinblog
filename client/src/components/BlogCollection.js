@@ -13,6 +13,7 @@ const useStyles = makeStyles({
     masonryGridStyle: {
         display: "flex",
         marginLeft: -30,
+        paddingLeft: 20,
         width: "auto",
     },
     masonryGridColumnStyle: {

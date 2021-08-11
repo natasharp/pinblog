@@ -1,36 +1,40 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Avatar, Card, CardContent, CardHeader, CardActions, IconButton, makeStyles, Paper, Box } from '@material-ui/core'
-import { Link, useHistory } from 'react-router-dom';
+import { Avatar, Card, CardContent, CardHeader, CardActions, IconButton, makeStyles, Box } from '@material-ui/core'
 import { useDispatch } from 'react-redux';
-import { deleteBlog, updateBlog } from '../reducers/blogReducer'
+import { updateBlog } from '../reducers/blogReducer'
 import blogService from '../services/blogs'
 import DeleteIcon from '@material-ui/icons/Delete';
 import FavoriteTwoToneIcon from '@material-ui/icons/FavoriteTwoTone';
 import LaunchIcon from '@material-ui/icons/Launch';
+import AlertDialog from './AlertDialog';
 
 const useStyle = makeStyles({
   cardStyle: {
     minWidth: 250
   },
-  paperStyle: {
-    backgroundColor: "#ffebee"
+  cardHeaderStyle: {
+    backgroundColor: "#e4eaf7",
+    color: "#f82257"
+  },
+  iconButtonStyle: {
+    paddingLeft: 5,
+    paddingRight: 5
   }
 });
 
 const BlogCard = ({ blog, user }) => {
   const classes = useStyle()
-  const history = useHistory()
   const dispatch = useDispatch()
+  const [open, setOpen] = React.useState(false);
 
-  const handleDelete = async () => {
-    const message = `Remove blog ${blog.title} by ${blog.author}`
-    if (window.confirm(message)) {
-      await blogService.remove(blog.id)
-      history.push('/')
-      dispatch(deleteBlog(blog.id))
-    }
-  }
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const handleLike = async () => {
     const updatedBlog = {
@@ -48,36 +52,37 @@ const BlogCard = ({ blog, user }) => {
 
   return (
     <Card className={classes.cardStyle}>
-      <Paper className={classes.paperStyle} elevation={0}>
-        <CardHeader
-          avatar={
-            <Avatar aria-label="user">
-              {blog.user.name.charAt(0)}
-            </Avatar>
-          }
-          title={blog.title}
-          subheader={`by ${blog.author}`} />
-      </Paper>
+      <CardHeader
+        className={classes.cardHeaderStyle}
+        avatar={
+          <Avatar aria-label="user">
+            {blog.user.name.charAt(0)}
+          </Avatar>}
+        title={blog.title}
+        subheader={`by ${blog.author}`} />
       <CardContent className={classes.cardContentStyle}>
-        {blog.likes}
         <Box
           display="flex"
           alignItems="flex-end"
           justifyContent="flex-end">
           <CardActions disableSpacing>
-            <IconButton aria-label="like" color="primary" onClick={() => handleLike(blog)}>
-              <FavoriteTwoToneIcon />
-            </IconButton>
-            <IconButton aria-label="launch" color="primary" component={Link} to={`/blogs/${blog.id}`}>
-              <LaunchIcon />
+            <Box flexwrap="wrap">
+              {blog.likes}
+              <IconButton className={classes.iconButtonStyle} aria-label="like" color="primary" onClick={() => handleLike(blog)}>
+                <FavoriteTwoToneIcon fontSize="small" />
+              </IconButton >
+            </Box>
+            <IconButton className={classes.iconButtonStyle} aria-label="launch" color="primary" href={blog.url}>
+              <LaunchIcon fontSize="small" />
             </IconButton>
             {blog.user.username === user.username
-              ? <IconButton aria-label="delete" color="primary" onClick={() => handleDelete(blog)}>
-                <DeleteIcon />
+              ? <IconButton className={classes.iconButtonStyle} aria-label="delete" color="primary" onClick={handleClickOpen}>
+                <DeleteIcon fontSize="small" />
               </IconButton>
-              : <IconButton aria-label="delete" disabled color="primary" >
-                <DeleteIcon />
+              : <IconButton className={classes.iconButtonStyle} aria-label="delete" disabled color="primary">
+                <DeleteIcon fontSize="small" />
               </IconButton>}
+              <AlertDialog blog={blog} handleClose={handleClose} open={open}/>
           </CardActions>
         </Box>
       </CardContent>
