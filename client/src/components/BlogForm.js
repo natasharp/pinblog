@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { Button, Card, CardContent, Grid, makeStyles, TextField, Typography } from '@material-ui/core'
-import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { addNewBlog } from '../reducers/blogReducer';
+import { useHistory } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { addNewBlog } from '../reducers/blogReducer'
 import blogService from '../services/blogs'
-import { setNotification } from '../reducers/notificationReducer';
+import { setNotification } from '../reducers/notificationReducer'
 
 const useStyle = makeStyles({
   cardStyle: {
@@ -13,11 +13,11 @@ const useStyle = makeStyles({
   cardContentStyle: {
     paddingBottom: 4,
   }
-});
+})
 
-const BlogForm = ({ notification, setTabValue }) => {
+const BlogForm = ({ setTabValue }) => {
   const classes = useStyle()
-  const history = useHistory();
+  const history = useHistory()
   const dispatch = useDispatch()
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')

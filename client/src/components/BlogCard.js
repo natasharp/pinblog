@@ -1,40 +1,40 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Avatar, Card, CardContent, CardHeader, CardActions, IconButton, makeStyles, Box } from '@material-ui/core'
-import { useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux'
 import { updateBlog } from '../reducers/blogReducer'
 import blogService from '../services/blogs'
-import DeleteIcon from '@material-ui/icons/Delete';
-import FavoriteTwoToneIcon from '@material-ui/icons/FavoriteTwoTone';
-import LaunchIcon from '@material-ui/icons/Launch';
-import AlertDialog from './AlertDialog';
+import DeleteIcon from '@material-ui/icons/Delete'
+import FavoriteTwoToneIcon from '@material-ui/icons/FavoriteTwoTone'
+import LaunchIcon from '@material-ui/icons/Launch'
+import AlertDialog from './AlertDialog'
 
 const useStyle = makeStyles({
   cardStyle: {
     minWidth: 250
   },
   cardHeaderStyle: {
-    backgroundColor: "#e4eaf7",
-    color: "#f82257"
+    backgroundColor: '#e4eaf7',
+    color: '#f82257'
   },
   iconButtonStyle: {
     paddingLeft: 5,
     paddingRight: 5
   }
-});
+})
 
 const BlogCard = ({ blog, user }) => {
   const classes = useStyle()
   const dispatch = useDispatch()
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(false)
 
   const handleClickOpen = () => {
-    setOpen(true);
-  };
+    setOpen(true)
+  }
 
   const handleClose = () => {
-    setOpen(false);
-  };
+    setOpen(false)
+  }
 
   const handleLike = async () => {
     const updatedBlog = {
@@ -82,7 +82,7 @@ const BlogCard = ({ blog, user }) => {
               : <IconButton className={classes.iconButtonStyle} aria-label="delete" disabled color="primary">
                 <DeleteIcon fontSize="small" />
               </IconButton>}
-              <AlertDialog blog={blog} handleClose={handleClose} open={open}/>
+            <AlertDialog blog={blog} handleClose={handleClose} open={open} />
           </CardActions>
         </Box>
       </CardContent>
