@@ -72,7 +72,7 @@ const BlogCard = ({ blog, user }) => {
                 <FavoriteTwoToneIcon fontSize="small" />
               </IconButton >
             </Box>
-            <IconButton className={classes.iconButtonStyle} aria-label="launch" color="primary" href={blog.url}>
+            <IconButton className={classes.iconButtonStyle} aria-label="launch" color="primary" href={blog.url} target="_blank">
               <LaunchIcon fontSize="small" />
             </IconButton>
             {blog.user.username === user.username
