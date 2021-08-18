@@ -1,16 +1,15 @@
 const reducer = (state = [], action) => {
   switch (action.type) {
-    case 'NEW_BLOG':
-      return [...state, action.data]
-    case 'INIT_BLOGS':
-      return action.data
-    case 'UPDATE_BLOG':
-      const id = action.data.id
-      return state.map((blog) => (blog.id !== id ? blog : action.data))
-    case 'DELETE_BLOG':
-      return state.filter((blog) => blog.id !== action.data)
-    default:
-      return state
+  case 'NEW_BLOG':
+    return [...state, action.data]
+  case 'INIT_BLOGS':
+    return action.data
+  case 'UPDATE_BLOG':
+    return state.map((blog) => (blog.id !== action.data.id ? blog : action.data))
+  case 'DELETE_BLOG':
+    return state.filter((blog) => blog.id !== action.data)
+  default:
+    return state
   }
 }
 
