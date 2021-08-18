@@ -11,11 +11,17 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
-        with:          
-          node-version: '12.x'
+        with:
+          node-version: "12.x"
       - name: Install dependencies for client
         run: npm install
         working-directory: client
       - name: Install dependencies for server
         run: npm install
+        working-directory: server
+      - name: Run lint for client
+        run: npm run eslint
+        working-directory: client
+      - name: Run lint for server
+        run: npm run eslint
         working-directory: server
