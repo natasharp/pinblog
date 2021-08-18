@@ -7,7 +7,8 @@
     "start": "cross-env NODE_ENV=production node index.js",
     "dev": "cross-env NODE_ENV=development nodemon index.js",
     "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
-    "start:test": "cross-env NODE_ENV=test node index.js"
+    "start:test": "cross-env NODE_ENV=test node index.js",
+    "eslint": "eslint ."
   },
   "author": "natasharp",
   "license": "MIT",
@@ -24,6 +25,7 @@
     "mongoose-unique-validator": "^2.0.3"
   },
   "devDependencies": {
+    "eslint": "^7.32.0",
     "jest": "^26.0.1",
     "nodemon": "^2.0.3",
     "supertest": "^4.0.2"
