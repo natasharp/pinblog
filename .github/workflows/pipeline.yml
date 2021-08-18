@@ -25,3 +25,6 @@ jobs:
       - name: Run lint for server
         run: npm run eslint
         working-directory: server
+      - name: Build
+        run: npm run build
+        working-directory: client

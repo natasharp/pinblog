@@ -73,9 +73,9 @@ const App = () => {
           indicatorColor='primary'
           textColor='primary'
           centered>
-          <Tab label='pined' component={Link} to={'/collection'} />
+          <Tab label='pinned' component={Link} to={'/collection'} />
           <Tab label='pin new' component={Link} to={'/new'} />
-          <Tab label='logout' component={Link} onClick={handleLogout} to={'/login'} />
+          <Tab label='logout' component={Link} onClick={handleLogout} to={'/'} />
         </Tabs>
       </Paper>
       <Card className={classes.cardStyle}>
@@ -84,9 +84,10 @@ const App = () => {
           success={notification.isSuccess} /> : null}
       </Card>
       <Switch>
-        <Route path='/login' render={() => <LoginForm />} />
+
         <Route path='/new' render={() => <BlogForm notification={notification} setTabValue={setTabValue} />} />
         <Route path='/collection' render={() => <BlogCollection blogs={blogs} user={user} />} />
+        <Route path='/' render={() => <LoginForm />} />
       </Switch>
     </Container>
   )
