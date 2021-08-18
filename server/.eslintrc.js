@@ -16,7 +16,7 @@ module.exports = {
     ],
     'linebreak-style': [
       'error',
-      'windows'
+      'unix'
     ],
     'quotes': [2, 'single', { 'avoidEscape': true, 'allowTemplateLiterals': true }],
     'semi': [
