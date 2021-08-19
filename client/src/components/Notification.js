@@ -8,10 +8,10 @@ const Notification = ({ message, isError }) => {
   }
 
   if (isError) {
-    return <Alert severity="error"> {message}</Alert>
+    return <Alert data-cypress-id='error' severity='error'> {message}</Alert>
   }
 
-  return <Alert severity="success">{message}</Alert>
+  return <Alert data-cypress-id='notification' severity='success'>{message}</Alert>
 }
 
 export default Notification

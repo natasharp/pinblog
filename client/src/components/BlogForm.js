@@ -50,7 +50,8 @@ const BlogForm = ({ setTabValue }) => {
 
   return (
     <div>
-      <Grid container
+      <Grid
+        container
         spacing={0}
         direction="column"
         alignItems="center"
@@ -63,6 +64,7 @@ const BlogForm = ({ setTabValue }) => {
           <form onSubmit={pinBlog}>
             <CardContent className={classes.cardContentStyle}>
               <TextField
+                data-cypress-id='title'
                 fullWidth
                 name='title'
                 type='text'
@@ -74,6 +76,7 @@ const BlogForm = ({ setTabValue }) => {
             </CardContent>
             <CardContent className={classes.cardContentStyle}>
               <TextField
+                data-cypress-id='author'
                 fullWidth
                 name='author'
                 type='text'
@@ -85,6 +88,7 @@ const BlogForm = ({ setTabValue }) => {
             </CardContent>
             <CardContent className={classes.cardContentStyle}>
               <TextField
+                data-cypress-id='url'
                 fullWidth
                 name='url'
                 type='url'
@@ -96,6 +100,7 @@ const BlogForm = ({ setTabValue }) => {
             </CardContent>
             <CardContent className={classes.cardContentStyle}>
               <Button
+                data-cypress-id='create-button'
                 fullWidth
                 variant='contained'
                 color='primary'

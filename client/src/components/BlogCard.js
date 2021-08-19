@@ -36,7 +36,7 @@ const BlogCard = ({ blog, user }) => {
     setOpen(false)
   }
 
-  const handleLike = async () => {
+  const handleLike = async (blog) => {
     const updatedBlog = {
       user: blog.user.id,
       title: blog.title,
@@ -51,7 +51,7 @@ const BlogCard = ({ blog, user }) => {
   }
 
   return (
-    <Card className={classes.cardStyle}>
+    <Card data-cypress-id="blog-card" className={classes.cardStyle}>
       <CardHeader
         className={classes.cardHeaderStyle}
         avatar={

@@ -58,6 +58,7 @@ const LoginForm = ({ notification }) => {
         <form onSubmit={submit}>
           <CardContent className={classes.cardContentStyle}>
             <TextField
+              data-cypress-id='username-input'
               fullWidth
               name='Username'
               type='text'
@@ -70,6 +71,7 @@ const LoginForm = ({ notification }) => {
           <CardContent className={classes.cardContentStyle}>
             <TextField
               fullWidth
+              data-cypress-id='password-input'
               name='Password'
               type='password'
               value={password}
@@ -80,6 +82,7 @@ const LoginForm = ({ notification }) => {
           </CardContent>
           <CardContent className={classes.cardContentStyle}>
             <Button
+              data-cypress-id='login-button'
               fullWidth
               variant='contained'
               color='primary'
