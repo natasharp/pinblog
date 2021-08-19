@@ -90,7 +90,7 @@ describe('Blog app', function () {
             .contains('Skincare Products for Sensitive Skin').parents('[data-cypress-id="blog-card"]').as('blog')
 
           cy.get('@blog').contains('0')
-          cy.get('@blog').find(`[aria-label="like"]`).click()
+          cy.get('@blog').find('[aria-label="like"]').click()
           cy.get('@blog').contains('1')
         })
 
@@ -100,8 +100,8 @@ describe('Blog app', function () {
             .parents('[data-cypress-id="blog-card"]')
             .as('blog')
 
-          cy.get('@blog').find(`[aria-label="delete"]`).click()
-          cy.get('[data-cypress-id="alert"]').find('button').contains("YES").click()
+          cy.get('@blog').find('[aria-label="delete"]').click()
+          cy.get('[data-cypress-id="alert"]').find('button').contains('YES').click()
           cy.contains('Skincare Products for Sensitive Skin').should('not.exist')
         })
 
@@ -111,7 +111,7 @@ describe('Blog app', function () {
             .parents('[data-cypress-id="blog-card"]')
             .as('blog')
 
-          cy.get('@blog').find(`[aria-label="delete"]`).should('be.disabled')
+          cy.get('@blog').find('[aria-label="delete"]').should('be.disabled')
         })
 
         it('go to blog source page', function () {
@@ -120,7 +120,7 @@ describe('Blog app', function () {
             .parents('[data-cypress-id="blog-card"]')
             .as('blog')
 
-          cy.get('@blog').find(`[aria-label="launch"]`).click()
+          cy.get('@blog').find('[aria-label="launch"]').click()
         })
       })
 
