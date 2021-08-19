@@ -87,7 +87,7 @@ const generateToken = (username, userId) => {
     id: userId
   }
 
-  const token = jwt.sign(userForToken, process.env.SECRET)
+  const token = jwt.sign(userForToken, process.env.SECRET_KEY)
   return token
 }
 
