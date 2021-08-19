@@ -30,7 +30,7 @@ Cypress.Commands.add('login', ({ username, password }) => {
     username, password
   }).then(({ body }) => {
     localStorage.setItem('loggedBloglistAppUser', JSON.stringify(body))
-    cy.visit('http://localhost:3000')
+    cy.visit('http://localhost:3000/collection')
   })
 })
 
@@ -43,6 +43,4 @@ Cypress.Commands.add('createBlog', ({ title, author, url, likes }) => {
       'Authorization': `bearer ${JSON.parse(localStorage.getItem('loggedBloglistAppUser')).token}`
     }
   })
-
-  cy.visit('http://localhost:3000')
 })
