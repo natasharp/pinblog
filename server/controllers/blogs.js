@@ -20,7 +20,7 @@ blogsRouter.get('/:id', async (request, response) => {
 })
 
 blogsRouter.post('/', async (request, response) => {
-  const decodedToken = jwt.verify(request.token, process.env.SECRET)
+  const decodedToken = jwt.verify(request.token, process.env.SECRET_KEY)
 
   const user = await User.findById(decodedToken.id)
 
@@ -46,7 +46,7 @@ blogsRouter.delete('/:id', async (request, response) => {
     response.status(404).json({ error: 'the blog is not found' })
   }
 
-  const decodedToken = jwt.verify(request.token, process.env.SECRET)
+  const decodedToken = jwt.verify(request.token, process.env.SECRET_KEY)
 
   if (blog.user.toString() === decodedToken.id) {
     await Blog.findByIdAndRemove(request.params.id)
