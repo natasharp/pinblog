@@ -12,7 +12,7 @@ jobs:
       SKIP_PREFLIGHT_CHECK: true
       MONGODB_URI: ${{ secrets.MONGO_URI }} 
       TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
-      PORT: ${{secrets.PORT}}
+      PORT: 3001
       SECRET_KEY: ${{secrets.SECRET_KEY}}
     steps:
       - uses: actions/checkout@v2
@@ -43,4 +43,3 @@ jobs:
           command: npm run start:e2e
           start: npm run start:test
           wait-on: http://localhost:3001
-          working-directory: server
