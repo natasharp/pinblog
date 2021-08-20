@@ -42,5 +42,5 @@ jobs:
         with:
           command: npm run start:e2e
           start: npm run start:test
-          wait-on: http://localhost:3001
+          wait-on: http://localhost:3001/api/blogs
           working-directory: server
