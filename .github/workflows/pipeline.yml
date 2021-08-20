@@ -8,6 +8,12 @@ on:
 jobs:
   simple_deployment_pipeline:
     runs-on: ubuntu-18.04
+    env: 
+      SKIP_PREFLIGHT_CHECK: true
+      MONGODB_URI: ${{ secrets.MONGO_URI }} 
+      TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
+      PORT: ${{secrets.PORT}}
+      SECRET_KEY: ${{secrets.SECRET_KEY}}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
@@ -30,10 +36,7 @@ jobs:
         working-directory: client
       - name: Run tests for server
         run: npm run test
-        working-directory: server
-        env:
-          TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
-          SECRET_KEY: ${{secrets.SECRET_KEY}}
+        working-directory: server 
       - name: Run e2e tests
         uses: cypress-io/github-action@v2
         with:
