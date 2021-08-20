@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  simple_deployment_pipeline:
+  deployment_pipeline:
     runs-on: ubuntu-18.04
     env: 
       SKIP_PREFLIGHT_CHECK: true
@@ -36,7 +36,7 @@ jobs:
         working-directory: client
       - name: Run tests for server
         run: npm run test
-        working-directory: server 
+        working-directory: server
       - name: Run e2e tests
         uses: cypress-io/github-action@v2
         with:
