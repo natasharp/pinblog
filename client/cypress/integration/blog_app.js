@@ -15,7 +15,7 @@ describe('Blog app', function () {
 
     cy.request('POST', 'http://localhost:3001/api/users/', firstUser)
     cy.request('POST', 'http://localhost:3001/api/users/', secondUser)
-    cy.visit('http://localhost:3000')
+    cy.visit('http://localhost:3001')
   })
 
   it('Login form is shown', function () {
@@ -53,7 +53,7 @@ describe('Blog app', function () {
       })
 
       it('A blog can be created', function () {
-        cy.visit('http://localhost:3000/new')
+        cy.visit('http://localhost:3001/new')
         cy.contains('pin new blog').click()
         cy.get('[data-cypress-id="title"]').type('Beetroot Latte')
         cy.get('[data-cypress-id="author"]').type('Sadia')
@@ -147,7 +147,7 @@ describe('Blog app', function () {
         })
 
         it('blog with the most likes is first', function () {
-          cy.visit('http://localhost:3000/collection')
+          cy.visit('http://localhost:3001/collection')
           cy.request('GET', 'http://localhost:3001/api/blogs')
             .then(response => {
               const likes = response.body.map(user => user.likes)
