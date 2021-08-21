@@ -9,6 +9,7 @@ const loginRouter = require('./controllers/login')
 const middleware = require('./utils/middleware')
 const logger = require('./utils/logger')
 const mongoose = require('mongoose')
+const path = require('path')
 
 logger.info('connecting to', config.MONGODB_URI)
 
@@ -29,6 +30,11 @@ app.use(middleware.tokenExtractor)
 app.use('/api/blogs', blogsRouter)
 app.use('/api/users', usersRouter)
 app.use('/api/login', loginRouter)
+
+// Handles any requests that don't match the ones above
+app.get('*', (req,res) => {
+  res.sendFile(path.join(__dirname, '../client/build/index.html'))
+})
 
 if (process.env.NODE_ENV === 'test') {
   const testingRouter = require('./controllers/meta')
