@@ -31,7 +31,10 @@ app.use('/api/blogs', blogsRouter)
 app.use('/api/users', usersRouter)
 app.use('/api/login', loginRouter)
 
-// Handles any requests that don't match the ones above
+app.get('/health', (req, res) => {
+  res.send('ok')
+})
+
 app.get('*', (req,res) => {
   res.sendFile(path.join(__dirname, '../client/build/index.html'))
 })
