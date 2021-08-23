@@ -62,7 +62,7 @@ const BlogForm = ({ setTabValue }) => {
         </Typography>
         <Card className={classes.cardStyle} variant="outlined">
           <form
-          data-test-id="form"
+            data-test-id="form"
             onSubmit={pinBlog}>
             <CardContent className={classes.cardContentStyle}>
               <TextField
