@@ -60,51 +60,53 @@ const BlogForm = ({ setTabValue }) => {
         <Typography variant="h6" gutterBottom color="secondary">
           pin new blog
         </Typography>
-        <Card className={classes.cardStyle} variant='outlined'>
-          <form onSubmit={pinBlog}>
+        <Card className={classes.cardStyle} variant="outlined">
+          <form
+          data-test-id="form"
+            onSubmit={pinBlog}>
             <CardContent className={classes.cardContentStyle}>
               <TextField
-                data-cypress-id='title'
+                data-test-id="title"
                 fullWidth
-                name='title'
+                name="title"
                 type='text'
                 value={title}
                 onChange={({ target }) => setTitle(target.value)}
-                label='title'
-                variant='outlined'>
+                label="title"
+                variant="outlined">
               </TextField>
             </CardContent>
             <CardContent className={classes.cardContentStyle}>
               <TextField
-                data-cypress-id='author'
+                data-test-id="author"
                 fullWidth
-                name='author'
+                name="author"
                 type='text'
                 value={author}
-                label='author'
-                variant='outlined'
+                label="author"
+                variant="outlined"
                 onChange={({ target }) => setAuthor(target.value)}
               />
             </CardContent>
             <CardContent className={classes.cardContentStyle}>
               <TextField
-                data-cypress-id='url'
+                data-FormHelperTextProps-id="url"
                 fullWidth
-                name='url'
-                type='url'
+                name="url"
+                type="url"
                 value={url}
-                label='link'
-                variant='outlined'
+                label="link"
+                variant="outlined"
                 onChange={({ target }) => setUrl(target.value)}
               />
             </CardContent>
             <CardContent className={classes.cardContentStyle}>
               <Button
-                data-cypress-id='create-button'
+                data-test-id="create-button"
                 fullWidth
-                variant='contained'
-                color='primary'
-                type='submit'>
+                variant="contained"
+                color="primary"
+                type="submit">
                 pin
               </Button>
             </CardContent>

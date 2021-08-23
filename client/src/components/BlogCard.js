@@ -51,8 +51,9 @@ const BlogCard = ({ blog, user }) => {
   }
 
   return (
-    <Card data-cypress-id="blog-card" className={classes.cardStyle}>
+    <Card data-test-id="blog-card" className={classes.cardStyle}>
       <CardHeader
+        data-test-id="card-header"
         className={classes.cardHeaderStyle}
         avatar={
           <Avatar aria-label="user">
@@ -60,13 +61,17 @@ const BlogCard = ({ blog, user }) => {
           </Avatar>}
         title={blog.title}
         subheader={`by ${blog.author}`} />
-      <CardContent className={classes.cardContentStyle}>
+      <CardContent
+        data-test-id="card-content"
+        className={classes.cardContentStyle}>
         <Box
           display="flex"
           alignItems="flex-end"
           justifyContent="flex-end">
           <CardActions disableSpacing>
-            <Box flexwrap="wrap">
+            <Box
+              data-test-id="number-of-likes"
+              flexwrap="wrap">
               {blog.likes}
               <IconButton className={classes.iconButtonStyle} aria-label="like" color="primary" onClick={() => handleLike(blog)}>
                 <FavoriteTwoToneIcon fontSize="small" />
@@ -82,7 +87,7 @@ const BlogCard = ({ blog, user }) => {
               : <IconButton className={classes.iconButtonStyle} aria-label="delete" disabled color="primary">
                 <DeleteIcon fontSize="small" />
               </IconButton>}
-            <AlertDialog blog={blog} handleClose={handleClose} open={open} />
+            <AlertDialog data-test-id="delete-dialog" blog={blog} handleClose={handleClose} open={open} />
           </CardActions>
         </Box>
       </CardContent>

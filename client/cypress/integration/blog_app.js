@@ -28,18 +28,18 @@ describe('Blog app', function () {
   describe('Login', function () {
 
     it('succeeds with correct credentials', function () {
-      cy.get('[data-cypress-id="username-input"]').type('natasharp')
-      cy.get('[data-cypress-id="password-input"]').type('secret')
-      cy.get('[data-cypress-id="login-button"]').click()
+      cy.get('[data-test-id="username-input"]').type('natasharp')
+      cy.get('[data-test-id="password-input"]').type('secret')
+      cy.get('[data-test-id="login-button"]').click()
 
-      cy.get('[data-cypress-id="logout"]').click()
+      cy.get('[data-test-id="logout"]').click()
     })
 
     it('fails with wrong credentials', function () {
-      cy.get('[data-cypress-id="username-input"]').type('natasharp')
-      cy.get('[data-cypress-id="password-input"]').type('wrong')
-      cy.get('[data-cypress-id="login-button"]').click()
-      cy.get('[data-cypress-id="error"]').contains('wrong credentials')
+      cy.get('[data-test-id="username-input"]').type('natasharp')
+      cy.get('[data-test-id="password-input"]').type('wrong')
+      cy.get('[data-test-id="login-button"]').click()
+      cy.get('[data-test-id="error"]').contains('wrong credentials')
     })
 
     describe('When logged in', function () {
@@ -55,14 +55,14 @@ describe('Blog app', function () {
       it('A blog can be created', function () {
         cy.visit('http://localhost:3001/new')
         cy.contains('pin new blog').click()
-        cy.get('[data-cypress-id="title"]').type('Beetroot Latte')
-        cy.get('[data-cypress-id="author"]').type('Sadia')
-        cy.get('[data-cypress-id="url"]').type('https://www.pickuplimes.com/single-post/2019/11/05/Beetroot-Latte')
+        cy.get('[data-test-id="title"]').type('Beetroot Latte')
+        cy.get('[data-test-id="author"]').type('Sadia')
+        cy.get('[data-test-id="url"]').type('https://www.pickuplimes.com/single-post/2019/11/05/Beetroot-Latte')
 
-        cy.get('[data-cypress-id="create-button"]').click()
-        cy.get('[data-cypress-id="notification"]').contains('New blog Beetroot Latte by Sadia pinned')
-        cy.get('[data-cypress-id="blog-card"]').contains('Beetroot Latte')
-        cy.get('[data-cypress-id="logout"]').click()
+        cy.get('[data-test-id="create-button"]').click()
+        cy.get('[data-test-id="notification"]').contains('New blog Beetroot Latte by Sadia pinned')
+        cy.get('[data-test-id="blog-card"]').contains('Beetroot Latte')
+        cy.get('[data-test-id="logout"]').click()
       })
 
       describe('User can', function () {
@@ -86,8 +86,8 @@ describe('Blog app', function () {
         })
 
         it('like blog', function () {
-          cy.get('[data-cypress-id="blog-card"]')
-            .contains('Skincare Products for Sensitive Skin').parents('[data-cypress-id="blog-card"]').as('blog')
+          cy.get('[data-test-id="blog-card"]')
+            .contains('Skincare Products for Sensitive Skin').parents('[data-test-id="blog-card"]').as('blog')
 
           cy.get('@blog').contains('0')
           cy.get('@blog').find('[aria-label="like"]').click()
@@ -95,29 +95,29 @@ describe('Blog app', function () {
         })
 
         it('delete blog he created', function () {
-          cy.get('[data-cypress-id="blog-card"]')
+          cy.get('[data-test-id="blog-card"]')
             .contains('Skincare Products for Sensitive Skin')
-            .parents('[data-cypress-id="blog-card"]')
+            .parents('[data-test-id="blog-card"]')
             .as('blog')
 
           cy.get('@blog').find('[aria-label="delete"]').click()
-          cy.get('[data-cypress-id="alert"]').find('button').contains('YES').click()
+          cy.get('[data-test-id="alert"]').find('button').contains('YES').click()
           cy.contains('Skincare Products for Sensitive Skin').should('not.exist')
         })
 
         it('not delete blog he did not create', function () {
-          cy.get('[data-cypress-id="blog-card"]')
+          cy.get('[data-test-id="blog-card"]')
             .contains('Beetroot Latte')
-            .parents('[data-cypress-id="blog-card"]')
+            .parents('[data-test-id="blog-card"]')
             .as('blog')
 
           cy.get('@blog').find('[aria-label="delete"]').should('be.disabled')
         })
 
         it('go to blog source page', function () {
-          cy.get('[data-cypress-id="blog-card"]')
+          cy.get('[data-test-id="blog-card"]')
             .contains('Skincare Products for Sensitive Skin')
-            .parents('[data-cypress-id="blog-card"]')
+            .parents('[data-test-id="blog-card"]')
             .as('blog')
 
           cy.get('@blog').find('[aria-label="launch"]').click()
@@ -152,7 +152,7 @@ describe('Blog app', function () {
             .then(response => {
               const likes = response.body.map(user => user.likes)
               const max = Math.max(...likes)
-              cy.get('[data-cypress-id="blog-card"]:first').contains(max)
+              cy.get('[data-test-id="blog-card"]:first').contains(max)
             })
         })
       })
