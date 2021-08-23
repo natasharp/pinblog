@@ -8,9 +8,9 @@ on:
 jobs:
   deployment_pipeline:
     runs-on: ubuntu-18.04
-    env: 
+    env:
       SKIP_PREFLIGHT_CHECK: true
-      MONGODB_URI: ${{ secrets.MONGO_URI }} 
+      MONGODB_URI: ${{ secrets.MONGO_URI }}
       TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
       PORT: 3001
       SECRET_KEY: ${{secrets.SECRET_KEY}}
@@ -47,3 +47,13 @@ jobs:
           start: npm run start:test
           wait-on: http://localhost:3001/api/blogs
           working-directory: server
+      - name: deploy
+        uses: akhileshns/heroku-deploy@v3.12.12
+        if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ' '), '#skip') }}
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "pinblog42"
+          heroku_email: "natasa_sladojevic@yahoo.com"
+          healthcheck: "https://natasharp-pokedex.herokuapp.com/health"
+          checkstring: "ok"
+          rollbackonhealthcheckfailed: true
