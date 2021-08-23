@@ -76,7 +76,7 @@ const App = () => {
           <Tab label='pinned' component={Link} to={'/collection'} />
           <Tab label='pin new' component={Link} to={'/new'} />
           <Tab
-            data-cypress-id="logout"
+            data-test-id="logout"
             label='logout'
             component={Link}
             onClick={handleLogout} to={'/'} />

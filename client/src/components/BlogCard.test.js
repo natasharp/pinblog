@@ -1,12 +1,12 @@
 import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
-import { fireEvent, render } from '@testing-library/react'
+import { render } from '@testing-library/react'
 import BlogCard from './BlogCard'
 import store from '../store'
 import { Provider } from 'react-redux'
 
 const renderWithProvider = (componentToRender) => {
-  return render(<Provider store={store()}>{componentToRender}</Provider>);
+  return render(<Provider store={store()}>{componentToRender}</Provider>)
 }
 
 describe('<BlogCard />', () => {
@@ -47,8 +47,7 @@ describe('<BlogCard />', () => {
     )
   })
 
-  test('renders button for liking and number of likes', () => {
-    const likeButton = component.container.querySelector('[aria-label="like"]')
+  test('renders number of likes', () => {
     const likes = component.container.querySelector('[data-test-id="number-of-likes"]')
     expect(likes).toHaveTextContent('1')
   })
