@@ -90,7 +90,7 @@ const BlogForm = ({ setTabValue }) => {
             </CardContent>
             <CardContent className={classes.cardContentStyle}>
               <TextField
-                data-FormHelperTextProps-id="url"
+                data-test-id="url"
                 fullWidth
                 name="url"
                 type="url"

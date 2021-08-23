@@ -23,7 +23,7 @@ export default function AlertDialog({ blog, handleClose, open }) {
   return (
     <div>
       <Dialog
-        data-cypress-id="alert"
+        data-test-id="alert"
         open={open}
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
