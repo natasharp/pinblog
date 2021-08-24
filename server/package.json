@@ -12,7 +12,7 @@
     "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
     "start:test": "cross-env NODE_ENV=test node index.js",
     "start:e2e": "cd ../client && npm run cypress:run",
-    "install": "cd ../client && npm install",
+    "install": "npm install --prefix client",
     "heroku-postbuild": "npm run build --prefix client",
     "eslint": "eslint ."
   },
