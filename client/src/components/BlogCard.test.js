@@ -1,7 +1,13 @@
 import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
-import { render, fireEvent } from '@testing-library/react'
+import { render } from '@testing-library/react'
 import BlogCard from './BlogCard'
+import store from '../store'
+import { Provider } from 'react-redux'
+
+const renderWithProvider = (componentToRender) => {
+  return render(<Provider store={store()}>{componentToRender}</Provider>)
+}
 
 describe('<BlogCard />', () => {
   let component
@@ -13,7 +19,7 @@ describe('<BlogCard />', () => {
     likes: 1,
     user: {
       username: 'ninalina',
-      user: 'Nina'
+      name: 'Nina'
     }
   }
 
@@ -23,29 +29,26 @@ describe('<BlogCard />', () => {
   }
 
   beforeEach(() => {
-    component = render(
-      <Blog blog={blog} user={user} />
+    component = renderWithProvider(
+      <BlogCard blog={blog} user={user} />
     )
+    component.debug
   })
 
-  test('renders content of title and author only', () => {
-    expect(component.container).toHaveTextContent(
+  test('renders content of title and author in header of the card', () => {
+    const cardHeader = component.container.querySelector('[data-test-id="card-header"]')
+    expect(cardHeader).toHaveTextContent(
       blog.title,
-      blog.author
+      blog.author,
     )
-
-    expect(component.container).not.toHaveTextContent(
+    expect(cardHeader).not.toHaveTextContent(
       blog.url,
       blog.likes
     )
   })
 
-  test('renders content of url and likes when button is clicked', () => {
-    const button = component.getByText('view')
-    fireEvent.click(button)
-
-    const div = component.container.querySelector('div:nth-child(2)')
-    expect(div).toHaveTextContent(blog.url)
-    expect(div).toHaveTextContent(blog.likes)
+  test('renders number of likes', () => {
+    const likes = component.container.querySelector('[data-test-id="number-of-likes"]')
+    expect(likes).toHaveTextContent('1')
   })
 })

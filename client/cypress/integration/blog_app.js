@@ -1,46 +1,45 @@
 describe('Blog app', function () {
   beforeEach(function () {
     cy.request('POST', 'http://localhost:3001/api/testing/reset')
+
     const firstUser = {
-      name: 'Natasa S. P.',
+      name: 'Natasa',
       username: 'natasharp',
       password: 'secret'
     }
     const secondUser = {
-      name: 'Nina S.',
+      name: 'Tajna',
       username: 'ninalina',
       password: 'secret'
     }
 
     cy.request('POST', 'http://localhost:3001/api/users/', firstUser)
     cy.request('POST', 'http://localhost:3001/api/users/', secondUser)
-    cy.visit('http://localhost:3000')
+    cy.visit('http://localhost:3001')
   })
 
   it('Login form is shown', function () {
-    cy.contains('Log in to application')
+    cy.contains('pinblog')
     cy.contains('username')
     cy.contains('password')
-    cy.contains('login')
+    cy.contains('LOGIN')
   })
 
   describe('Login', function () {
 
     it('succeeds with correct credentials', function () {
-      cy.get('#username-input').type('natasharp')
-      cy.get('#password-input').type('secret')
-      cy.get('#login-button').click()
+      cy.get('[data-test-id="username-input"]').type('natasharp')
+      cy.get('[data-test-id="password-input"]').type('secret')
+      cy.get('[data-test-id="login-button"]').click()
 
-      cy.get('#logout-button').click()
+      cy.get('[data-test-id="logout"]').click()
     })
 
     it('fails with wrong credentials', function () {
-      cy.get('#username-input').type('natasharp')
-      cy.get('#password-input').type('wrong')
-      cy.get('#login-button').click()
-
-      cy.get('.error').contains('wrong credentials')
-      cy.get('.error').should('have.css', 'color', 'rgb(255, 0, 0)')
+      cy.get('[data-test-id="username-input"]').type('natasharp')
+      cy.get('[data-test-id="password-input"]').type('wrong')
+      cy.get('[data-test-id="login-button"]').click()
+      cy.get('[data-test-id="error"]').contains('wrong credentials')
     })
 
     describe('When logged in', function () {
@@ -50,18 +49,20 @@ describe('Blog app', function () {
           password: 'secret'
         }).then(response => {
           localStorage.setItem('loggedBloglistAppUser', JSON.stringify(response.body))
-          cy.visit('http://localhost:3000')
         })
       })
 
       it('A blog can be created', function () {
-        cy.contains('create new blog').click()
-        cy.get('#title').type('Beetroot Latte')
-        cy.get('#author').type('Sadia')
-        cy.get('#url').type('https://www.pickuplimes.com/single-post/2019/11/05/Beetroot-Latte')
+        cy.visit('http://localhost:3001/new')
+        cy.contains('pin new blog').click()
+        cy.get('[data-test-id="title"]').type('Beetroot Latte')
+        cy.get('[data-test-id="author"]').type('Sadia')
+        cy.get('[data-test-id="url"]').type('https://www.pickuplimes.com/single-post/2019/11/05/Beetroot-Latte')
 
-        cy.get('#create-button').click()
-        cy.get('#blogs-div').contains('Beetroot Latte').find('button').contains('view')
+        cy.get('[data-test-id="create-button"]').click()
+        cy.get('[data-test-id="notification"]').contains('New blog Beetroot Latte by Sadia pinned')
+        cy.get('[data-test-id="blog-card"]').contains('Beetroot Latte')
+        cy.get('[data-test-id="logout"]').click()
       })
 
       describe('User can', function () {
@@ -85,28 +86,41 @@ describe('Blog app', function () {
         })
 
         it('like blog', function () {
-          cy.get('#blogs-div')
-            .contains('Beetroot Latte Sadia').as('blog')
+          cy.get('[data-test-id="blog-card"]')
+            .contains('Skincare Products for Sensitive Skin').parents('[data-test-id="blog-card"]').as('blog')
 
-          cy.get('@blog').find('button').click()
-          cy.get('@blog').find('button').contains('like').click()
+          cy.get('@blog').contains('0')
+          cy.get('@blog').find('[aria-label="like"]').click()
           cy.get('@blog').contains('1')
         })
 
         it('delete blog he created', function () {
-          cy.get('#blogs-div')
-            .contains('Skincare Products for Sensitive Skin').as('blog')
+          cy.get('[data-test-id="blog-card"]')
+            .contains('Skincare Products for Sensitive Skin')
+            .parents('[data-test-id="blog-card"]')
+            .as('blog')
 
-          cy.get('@blog').find('button').click()
-          cy.get('@blog').find('button').contains('remove').click()
+          cy.get('@blog').find('[aria-label="delete"]').click()
+          cy.get('[data-test-id="alert"]').find('button').contains('YES').click()
           cy.contains('Skincare Products for Sensitive Skin').should('not.exist')
         })
 
         it('not delete blog he did not create', function () {
-          cy.get('#blogs-div')
-            .contains('Beetroot Latte').as('blog')
-          cy.get('@blog').find('button').click()
-          cy.get('@blog').children().get('#delete-button').should('not.be.visible')
+          cy.get('[data-test-id="blog-card"]')
+            .contains('Beetroot Latte')
+            .parents('[data-test-id="blog-card"]')
+            .as('blog')
+
+          cy.get('@blog').find('[aria-label="delete"]').should('be.disabled')
+        })
+
+        it('go to blog source page', function () {
+          cy.get('[data-test-id="blog-card"]')
+            .contains('Skincare Products for Sensitive Skin')
+            .parents('[data-test-id="blog-card"]')
+            .as('blog')
+
+          cy.get('@blog').find('[aria-label="launch"]').click()
         })
       })
 
@@ -133,12 +147,12 @@ describe('Blog app', function () {
         })
 
         it('blog with the most likes is first', function () {
+          cy.visit('http://localhost:3001/collection')
           cy.request('GET', 'http://localhost:3001/api/blogs')
             .then(response => {
               const likes = response.body.map(user => user.likes)
               const max = Math.max(...likes)
-              cy.get('.blog:first').find('button').click()
-              cy.get('#likes-div').contains(max)
+              cy.get('[data-test-id="blog-card"]:first').contains(max)
             })
         })
       })

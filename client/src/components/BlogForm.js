@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { Button, Card, CardContent, Grid, makeStyles, TextField, Typography } from '@material-ui/core'
-import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { addNewBlog } from '../reducers/blogReducer';
+import { useHistory } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { addNewBlog } from '../reducers/blogReducer'
 import blogService from '../services/blogs'
-import { setNotification } from '../reducers/notificationReducer';
+import { setNotification } from '../reducers/notificationReducer'
 
 const useStyle = makeStyles({
   cardStyle: {
@@ -13,11 +13,11 @@ const useStyle = makeStyles({
   cardContentStyle: {
     paddingBottom: 4,
   }
-});
+})
 
-const BlogForm = ({ notification, setTabValue }) => {
+const BlogForm = ({ setTabValue }) => {
   const classes = useStyle()
-  const history = useHistory();
+  const history = useHistory()
   const dispatch = useDispatch()
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
@@ -41,7 +41,7 @@ const BlogForm = ({ notification, setTabValue }) => {
       setAuthor('')
       setUrl('')
       setTabValue(0)
-      history.push('/')
+      history.push('/collection')
     } catch (error) {
       console.log(error.message)
     }
@@ -50,7 +50,8 @@ const BlogForm = ({ notification, setTabValue }) => {
 
   return (
     <div>
-      <Grid container
+      <Grid
+        container
         spacing={0}
         direction="column"
         alignItems="center"
@@ -59,47 +60,53 @@ const BlogForm = ({ notification, setTabValue }) => {
         <Typography variant="h6" gutterBottom color="secondary">
           pin new blog
         </Typography>
-        <Card className={classes.cardStyle} variant='outlined'>
-          <form onSubmit={pinBlog}>
+        <Card className={classes.cardStyle} variant="outlined">
+          <form
+            data-test-id="form"
+            onSubmit={pinBlog}>
             <CardContent className={classes.cardContentStyle}>
               <TextField
+                data-test-id="title"
                 fullWidth
-                name='title'
+                name="title"
                 type='text'
                 value={title}
                 onChange={({ target }) => setTitle(target.value)}
-                label='title'
-                variant='outlined'>
+                label="title"
+                variant="outlined">
               </TextField>
             </CardContent>
             <CardContent className={classes.cardContentStyle}>
               <TextField
+                data-test-id="author"
                 fullWidth
-                name='author'
+                name="author"
                 type='text'
                 value={author}
-                label='author'
-                variant='outlined'
+                label="author"
+                variant="outlined"
                 onChange={({ target }) => setAuthor(target.value)}
               />
             </CardContent>
             <CardContent className={classes.cardContentStyle}>
               <TextField
+                data-test-id="url"
                 fullWidth
-                name='url'
-                type='url'
+                name="url"
+                type="url"
                 value={url}
-                label='link'
-                variant='outlined'
+                label="link"
+                variant="outlined"
                 onChange={({ target }) => setUrl(target.value)}
               />
             </CardContent>
             <CardContent className={classes.cardContentStyle}>
               <Button
+                data-test-id="create-button"
                 fullWidth
-                variant='contained'
-                color='primary'
-                type='submit'>
+                variant="contained"
+                color="primary"
+                type="submit">
                 pin
               </Button>
             </CardContent>

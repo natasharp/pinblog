@@ -3,10 +3,10 @@ const notificationReducer = (
   action
 ) => {
   switch (action.type) {
-    case 'SET_NOTIFICATION':
-      return { message: action.data, isError: action.isError }
-    default:
-      return state
+  case 'SET_NOTIFICATION':
+    return { message: action.data, isError: action.isError }
+  default:
+    return state
   }
 }
 

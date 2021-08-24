@@ -1,0 +1,64 @@
+name: Deployment pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deployment_pipeline:
+    runs-on: ubuntu-18.04
+    env:
+      SKIP_PREFLIGHT_CHECK: true
+      MONGODB_URI: ${{ secrets.MONGODB_URI }}
+      TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
+      PORT: 3001
+      SECRET_KEY: ${{secrets.SECRET_KEY}}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "12.x"
+      - name: Install dependencies for client
+        run: npm install
+        working-directory: client
+      - name: Install dependencies for server
+        run: npm install
+        working-directory: server
+      - name: Run lint for client
+        run: npm run eslint
+        working-directory: client
+      - name: Run lint for server
+        run: npm run eslint
+        working-directory: server
+      - name: Build
+        run: npm run build
+        working-directory: client
+      - name: Run tests for server
+        run: npm run test
+        working-directory: server
+      - name: Run tests for client
+        run: npm run test
+        working-directory: client
+      - name: Run e2e tests
+        uses: cypress-io/github-action@v2
+        with:
+          command: npm run start:e2e
+          start: npm run start:test
+          wait-on: http://localhost:3001/api/blogs
+          working-directory: server
+      - name: Deploy to Heroku
+        uses: akhileshns/heroku-deploy@v3.12.12
+        if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ' '), '#skip') }}
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "pinblog42"
+          heroku_email: "natasa_sladojevic@yahoo.com"
+          healthcheck: "https://pinblog42.herokuapp.com/health"
+          checkstring: "ok"
+          rollbackonhealthcheckfailed: true
+          appdir: "server"
+        env:
+          HD_MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          HD_SECRET_KEY: ${{secrets.SECRET_KEY}}
+          HD_PORT: ${{secrets.PORT}}
