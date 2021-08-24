@@ -1,8 +1,8 @@
 {
-    "name": "pinblog42",
-    "version": "1.0.0",
-    "description": "",
-    "scripts": {
-      "start": "cd ./server && npm run start"
-    }
+  "name": "pinblog42",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "postinstall": "npm install --prefix server && npm install --prefix frontend-app",
+  }
 }
