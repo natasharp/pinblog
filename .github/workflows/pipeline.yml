@@ -57,7 +57,6 @@ jobs:
           healthcheck: "https://pinblog42.herokuapp.com/health"
           checkstring: "ok"
           rollbackonhealthcheckfailed: true
-          appdir: "server"
         env:
           HD_MONGODB_URI: ${{ secrets.MONGODB_URI }}
           HD_SECRET_KEY: ${{secrets.SECRET_KEY}}
