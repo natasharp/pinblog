@@ -47,7 +47,7 @@ jobs:
           start: npm run start:test
           wait-on: http://localhost:3001/api/blogs
           working-directory: server
-      - name: deploy
+      - name: Deploy to Heroku
         uses: akhileshns/heroku-deploy@v3.12.12
         if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ' '), '#skip') }}
         with:
