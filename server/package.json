@@ -9,7 +9,7 @@
     "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
     "start:test": "cross-env NODE_ENV=test node index.js",
     "start:e2e": "cd ../client && npm run cypress:run",
-    "build": "cd ..client && npm run build",
+    "build": "cd ../client && npm run build",
     "eslint": "eslint ."
   },
   "author": "natasharp",
