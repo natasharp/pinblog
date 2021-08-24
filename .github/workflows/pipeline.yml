@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-18.04
     env:
       SKIP_PREFLIGHT_CHECK: true
-      MONGODB_URI: ${{ secrets.MONGO_URI }}
+      MONGODB_URI: ${{ secrets.MONGODB_URI }}
       TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
       PORT: 3001
       SECRET_KEY: ${{secrets.SECRET_KEY}}
