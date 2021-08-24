@@ -10,7 +10,7 @@
     "start:test": "cross-env NODE_ENV=test node index.js",
     "start:e2e": "cd ../client && npm run cypress:run",
     "install": "cd ../client && npm install",
-    "build": "cd ../client && npm run build",
+    "heroku-postbuild": "npm run build --prefix client",
     "eslint": "eslint ."
   },
   "author": "natasharp",
