@@ -3,6 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "postinstall": "npm install --prefix server && npm install --prefix frontend-app",
+    "postinstall": "npm install --prefix server && npm install --prefix frontend-app"
   }
 }
