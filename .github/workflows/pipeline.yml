@@ -58,3 +58,7 @@ jobs:
           checkstring: "ok"
           rollbackonhealthcheckfailed: true
           appdir: "server"
+        env:
+          HD_MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          HD_SECRET_KEY: ${{secrets.SECRET_KEY}}
+          HD_PORT: ${{secrets.PORT}}
