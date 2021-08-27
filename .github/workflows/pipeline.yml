@@ -64,3 +64,13 @@ jobs:
           HD_MONGODB_URI: ${{ secrets.MONGODB_URI }}
           HD_SECRET_KEY: ${{secrets.SECRET_KEY}}
           HD_PORT: ${{secrets.PORT}}
+  push_tag:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: bump version and push tag
+        if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ' '), '#skip') }}
+        uses: anothrNick/github-tag-action@1.33.0
+        env: 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BUMP: patch
