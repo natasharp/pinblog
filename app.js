@@ -1,13 +1,13 @@
-const config = require('./utils/config')
+const config = require('./server/utils/config')
 const express = require('express')
 require('express-async-errors')
 const app = express()
 const cors = require('cors')
-const blogsRouter = require('./controllers/blogs')
-const usersRouter = require('./controllers/users')
-const loginRouter = require('./controllers/login')
-const middleware = require('./utils/middleware')
-const logger = require('./utils/logger')
+const blogsRouter = require('./server/controllers/blogs')
+const usersRouter = require('./server/controllers/users')
+const loginRouter = require('./server/controllers/login')
+const middleware = require('./server/utils/middleware')
+const logger = require('./server/utils/logger')
 const mongoose = require('mongoose')
 const path = require('path')
 
@@ -22,7 +22,7 @@ mongoose.connect(config.MONGODB_URI, { useCreateIndex: true, useNewUrlParser: tr
   })
 
 app.use(cors())
-app.use(express.static('../client/build'))
+app.use(express.static('./client/build'))
 app.use(express.json())
 app.use(middleware.requestLogger)
 app.use(middleware.tokenExtractor)
@@ -36,11 +36,11 @@ app.get('/health', (req, res) => {
 })
 
 app.get('*', (req,res) => {
-  res.sendFile(path.join(__dirname, '../client/build/index.html'))
+  res.sendFile(path.join(__dirname, './client/build/index.html'))
 })
 
 if (process.env.NODE_ENV === 'test') {
-  const testingRouter = require('./controllers/meta')
+  const testingRouter = require('./server/controllers/meta')
   app.use('/api/testing', testingRouter)
 }
 

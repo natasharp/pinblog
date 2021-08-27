@@ -6,7 +6,7 @@ import store from '../store'
 import { Provider } from 'react-redux'
 
 const renderWithProvider = (componentToRender) => {
-  return render(<Provider store={store()}>{componentToRender}</Provider>)
+  return render(< Provider store={store()} > {componentToRender}</Provider >)
 }
 
 describe('<BlogCard />', () => {

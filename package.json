@@ -9,17 +9,22 @@
   "scripts": {
     "start": "cross-env NODE_ENV=production node index.js",
     "dev": "cross-env NODE_ENV=development nodemon index.js",
-    "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
-    "start:test": "cross-env NODE_ENV=test node index.js",
-    "start:e2e": "cd ../client && npm run cypress:run",
-    "heroku-postinstall" : "npm install --prefix ../client",
-    "heroku-postbuild": "npm run build --prefix ../client && cp -r build ../sever",
-    "eslint": "eslint ."
+    "test": "cross-env NODE_ENV=test node index.js",
+    "eslint": "eslint .",
+    "start:unit": "cross-env NODE_ENV=test jest --verbose --runInBand --testPathPattern=server/tests/",
+    "start:e2e": "cd client && npm run cypress:run",
+    "postinstall": "cd client && npm install",
+    "heroku-postbuild": "npm run build --prefix client"
   },
   "author": "natasharp",
   "license": "MIT",
   "dependencies": {
+    "@babel/core": "^7.15.0",
+    "@babel/preset-env": "^7.15.0",
+    "babel-jest": "^27.0.6",
     "bcrypt": "^4.0.1",
+    "browserslist": "^4.16.8",
+    "caniuse-lite": "^1.0.30001252",
     "cors": "^2.8.5",
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
@@ -31,6 +36,7 @@
     "mongoose-unique-validator": "^2.0.3"
   },
   "devDependencies": {
+    "@babel/preset-react": "^7.14.5",
     "eslint": "^7.32.0",
     "jest": "^26.0.1",
     "nodemon": "^2.0.3",

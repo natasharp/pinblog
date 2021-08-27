@@ -35,7 +35,7 @@ jobs:
         run: npm run build
         working-directory: client
       - name: Run tests for server
-        run: npm run test
+        run: npm run test:unit
         working-directory: server
       - name: Run tests for client
         run: npm run test
@@ -44,9 +44,8 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           command: npm run start:e2e
-          start: npm run start:test
+          start: npm run test
           wait-on: http://localhost:3001/api/blogs
-          working-directory: server
       - name: Deploy to Heroku
         uses: akhileshns/heroku-deploy@v3.12.12
         if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ' '), '#skip') }}
@@ -57,7 +56,6 @@ jobs:
           healthcheck: "https://pinblog42.herokuapp.com/health"
           checkstring: "ok"
           rollbackonhealthcheckfailed: true
-          appdir: "server"
         env:
           HD_MONGODB_URI: ${{ secrets.MONGODB_URI }}
           HD_SECRET_KEY: ${{secrets.SECRET_KEY}}
