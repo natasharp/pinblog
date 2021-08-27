@@ -64,7 +64,7 @@ jobs:
           HD_MONGODB_URI: ${{ secrets.MONGODB_URI }}
           HD_SECRET_KEY: ${{secrets.SECRET_KEY}}
           HD_PORT: ${{secrets.PORT}}
-  push_tag:
+  tag_release:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v2
