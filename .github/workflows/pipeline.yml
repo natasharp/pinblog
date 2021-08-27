@@ -57,6 +57,7 @@ jobs:
           checkstring: "ok"
           rollbackonhealthcheckfailed: true
         env:
+          HD_SKIP_PREFLIGHT_CHECK: true
           HD_MONGODB_URI: ${{ secrets.MONGODB_URI }}
           HD_SECRET_KEY: ${{secrets.SECRET_KEY}}
           HD_PORT: ${{secrets.PORT}}
