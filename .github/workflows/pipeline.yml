@@ -35,7 +35,7 @@ jobs:
         run: npm run build
         working-directory: client
       - name: Run tests for server
-        run: npm run test:unit
+        run: npm run start:unit
         working-directory: server
       - name: Run tests for client
         run: npm run test
