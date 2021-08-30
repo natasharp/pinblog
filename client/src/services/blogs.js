@@ -27,9 +27,13 @@ const remove = id => {
   return request.then(response => response.data)
 }
 
-
 const update = (id, updatedObject) => {
   const request = axios.put(`${baseUrl}/${id}`, updatedObject)
+  return request.then(response => response.data)
+}
+
+const createComment = (id, updatedObject) => {
+  const request = axios.post(`${baseUrl}/${id}/comments`, updatedObject)
   return request.then(response => response.data)
 }
 
@@ -38,5 +42,6 @@ export default {
   getAll,
   create,
   update,
-  remove
+  remove,
+  createComment
 }

@@ -8,6 +8,10 @@ const reducer = (state = [], action) => {
     return state.map((blog) => (blog.id !== action.data.id ? blog : action.data))
   case 'DELETE_BLOG':
     return state.filter((blog) => blog.id !== action.data)
+  case 'COMMENT_BLOG':
+    return state.map((blog) =>
+      blog.id !== action.data.id ? blog : action.data
+    )
   default:
     return state
   }
@@ -42,6 +46,13 @@ export const deleteBlog = (id) => {
   return {
     type: 'DELETE_BLOG',
     data: id,
+  }
+}
+
+export const commentBlog = (blog) => {
+  return {
+    type: 'COMMENT_BLOG',
+    data: blog,
   }
 }
 
