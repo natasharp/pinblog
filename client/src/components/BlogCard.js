@@ -8,18 +8,35 @@ import DeleteIcon from '@material-ui/icons/Delete'
 import FavoriteTwoToneIcon from '@material-ui/icons/FavoriteTwoTone'
 import LaunchIcon from '@material-ui/icons/Launch'
 import AlertDialog from './AlertDialog'
+import Comment from './Comment'
 
 const useStyle = makeStyles({
   cardStyle: {
-    minWidth: 250
+    backgroundColor: '#ffffff',
+    minWidth: 250,
   },
   cardHeaderStyle: {
     backgroundColor: '#e4eaf7',
-    color: '#f82257'
+    color: '#f82257',
+    border: 1,
+    borderStyle: 'solid',
+    borderRadius: 2,
+    borderColor: '#e4eaf7'
+  },
+  commentStyle: {
+    backgroundColor: '#f9ffe5',
+    color: 'text.secondary',
+    padding: 5,
+    marginTop: 5,
+    marginBottom: 5
   },
   iconButtonStyle: {
     paddingLeft: 5,
     paddingRight: 5
+  },
+  textFieldStyle: {
+    paddingTop: 5,
+    paddingBottom: 5
   }
 })
 
@@ -50,6 +67,8 @@ const BlogCard = ({ blog, user }) => {
     dispatch(updateBlog(returnedBlog))
   }
 
+
+
   return (
     <Card data-test-id="blog-card" className={classes.cardStyle}>
       <CardHeader
@@ -64,6 +83,7 @@ const BlogCard = ({ blog, user }) => {
       <CardContent
         data-test-id="card-content"
         className={classes.cardContentStyle}>
+        <Comment blog={blog} />
         <Box
           display="flex"
           alignItems="flex-end"
@@ -91,7 +111,7 @@ const BlogCard = ({ blog, user }) => {
           </CardActions>
         </Box>
       </CardContent>
-    </Card>
+    </Card >
   )
 }
 

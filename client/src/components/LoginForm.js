@@ -11,10 +11,17 @@ import Notification from './Notification'
 
 const useStyle = makeStyles({
   cardStyle: {
-    minWidth: 350
+    minWidth: 350,
+    backgroundColor: '#f9ffe5'
   },
   cardContentStyle: {
     paddingBottom: 4,
+  },
+  textFieldStyle: {
+    backgroundColor: '#ffffff'
+  },
+  buttonStyle: {
+    backgroundColor: '#ffffff'
   }
 })
 
@@ -58,6 +65,7 @@ const LoginForm = ({ notification }) => {
         <form onSubmit={submit}>
           <CardContent className={classes.cardContentStyle}>
             <TextField
+              className={classes.textFieldStyle}
               data-test-id='username-input'
               fullWidth
               name='Username'
@@ -70,6 +78,7 @@ const LoginForm = ({ notification }) => {
           </CardContent>
           <CardContent className={classes.cardContentStyle}>
             <TextField
+              className={classes.textFieldStyle}
               fullWidth
               data-test-id='password-input'
               name='Password'
@@ -83,16 +92,28 @@ const LoginForm = ({ notification }) => {
           <CardContent className={classes.cardContentStyle}>
             <Button
               data-test-id='login-button'
+              className={classes.buttonStyle}
               fullWidth
-              variant='contained'
+              variant='outlined'
               color='primary'
               type='submit'>
               LOGIN
             </Button>
           </CardContent>
+          <CardContent className={classes.cardContentStyle}>
+            <Button
+              data-test-id='signup-button'
+              fullWidth
+              variant='contained'
+              disabled>
+              SIGN UP
+            </Button>
+          </CardContent>
         </form>
         {notification ? <Notification message={notification.message} isError={notification.isError} /> : null}
       </Card>
+      <Typography>@work in progress, credentials for testing: </Typography>
+      <Typography>username: ninalina, password: 123456789</Typography>
     </Grid >
   )
 }
