@@ -8,7 +8,7 @@ describe('Blog app', function () {
       password: 'secret'
     }
     const secondUser = {
-      name: 'Tajna',
+      name: 'Nina',
       username: 'ninalina',
       password: 'secret'
     }

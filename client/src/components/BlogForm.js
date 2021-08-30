@@ -8,10 +8,17 @@ import { setNotification } from '../reducers/notificationReducer'
 
 const useStyle = makeStyles({
   cardStyle: {
-    minWidth: 350
+    minWidth: 350,
+    backgroundColor: '#f9ffe5'
   },
   cardContentStyle: {
     paddingBottom: 4,
+  },
+  textFieldStyle: {
+    backgroundColor: '#ffffff'
+  },
+  buttonStyle: {
+    backgroundColor: '#ffffff'
   }
 })
 
@@ -67,6 +74,7 @@ const BlogForm = ({ setTabValue }) => {
             <CardContent className={classes.cardContentStyle}>
               <TextField
                 data-test-id="title"
+                className={classes.textFieldStyle}
                 fullWidth
                 name="title"
                 type='text'
@@ -79,6 +87,7 @@ const BlogForm = ({ setTabValue }) => {
             <CardContent className={classes.cardContentStyle}>
               <TextField
                 data-test-id="author"
+                className={classes.textFieldStyle}
                 fullWidth
                 name="author"
                 type='text'
@@ -91,6 +100,7 @@ const BlogForm = ({ setTabValue }) => {
             <CardContent className={classes.cardContentStyle}>
               <TextField
                 data-test-id="url"
+                className={classes.textFieldStyle}
                 fullWidth
                 name="url"
                 type="url"
@@ -103,8 +113,9 @@ const BlogForm = ({ setTabValue }) => {
             <CardContent className={classes.cardContentStyle}>
               <Button
                 data-test-id="create-button"
+                className={classes.buttonStyle}
                 fullWidth
-                variant="contained"
+                variant="outlined"
                 color="primary"
                 type="submit">
                 pin
