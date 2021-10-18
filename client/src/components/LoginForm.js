@@ -112,8 +112,7 @@ const LoginForm = ({ notification }) => {
         </form>
         {notification ? <Notification message={notification.message} isError={notification.isError} /> : null}
       </Card>
-      <Typography>@work in progress, credentials for testing: </Typography>
-      <Typography>username: ninalina, password: 123456789</Typography>
+      <Typography>@username: ninalina, password: 123456789</Typography>
     </Grid >
   )
 }
